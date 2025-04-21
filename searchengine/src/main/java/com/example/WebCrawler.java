@@ -39,11 +39,10 @@ public class WebCrawler {
             Elements links = doc.select("a[href]");
             for (Element l : links) {
                 String nextUrl = l.absUrl("href");
-                    if (nextUrl.isEmpty() || visited.contains(nextUrl) || nextUrl.equals(url)) {
+                if (nextUrl.isEmpty() || visited.contains(nextUrl) || nextUrl.equals(url))
                     continue;
-                }
-    
-                crawl(nextUrl, depth - 1);
+                else
+                    crawl(nextUrl, depth - 1);
             }
         } catch (IOException e) {
             System.err.println("Failed to crawl: " + url + " due to " + e.getMessage());
