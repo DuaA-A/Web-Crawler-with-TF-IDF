@@ -9,8 +9,8 @@ import java.util.Map;
 public class InvertedIndex {
 
       public static class Posting {
-          String DocId ;
-          int TF ;
+          public   String DocId ;
+          public  int TF ;
 
           public Posting(String docId , int TermF){
               this.DocId = docId ;
