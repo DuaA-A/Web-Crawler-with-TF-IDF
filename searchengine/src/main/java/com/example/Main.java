@@ -29,5 +29,19 @@ public class Main {
 //        System.out.println("\nTF-IDF for query:");
 //        queryVector.forEach((term, weight) -> System.out.printf("%s: %.4f\n", term, weight));
 
+
+
+        // 3. Define the user's search query
+//String query = "egypt pharaoh tomb";
+
+// 4. Rank the documents based on cosine similarity
+//List<String> topDocuments = tfidf.rankDocuments(query);
+
+// 5. Print the top matching documents
+//System.out.println("Top 10 similar documents to the query: \"" + query + "\"");
+//for (int i = 0; i < topDocuments.size(); i++) {
+    //System.out.println((i + 1) + ". " + topDocuments.get(i));
+//}
+
     }
 }
