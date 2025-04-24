@@ -51,7 +51,9 @@ public class InvertedIndex {
           return sb.toString() ;
       }
       public void BuildIndxDoc(String docID , String Content){
-          String[] tokens = Content.toLowerCase().split("\\W+");
+          List<String> tokens = TextProcessing.processText(Content);
+
+//          String[] tokens = Content.toLowerCase().split("\\W+");
           Map<String , Integer> TF = new HashMap<>() ;
           for (String token : tokens){
               if (!token.isEmpty()){ // Make sure the word is not " "
