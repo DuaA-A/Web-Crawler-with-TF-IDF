@@ -44,5 +44,22 @@ for (int i = 0; i < topDocuments.size(); i++) {
     System.out.println((i + 1) + ". " + topDocuments.get(i));
 }
 
+        // 6. Print cosine similarity values for top documents
+Map<String, Double> fullQueryVector = tfidf.computeQueryVector(query);
+Map<String, Double> similarities = new java.util.HashMap<>();
+for (String id : tfidf.getAllDocumentIds()) {
+    Map<String, Double> fullDocVector = tfidf.computeDocumentVector(id);
+    double sim = tfidf.cosineSimilarity(fullDocVector, fullQueryVector);
+    similarities.put(id, sim);
+}
+
+System.out.println("\nTop 10 similar documents with cosine similarity:");
+topDocuments.stream()
+        .limit(10)
+        .forEach(doc -> {
+            double simValue = similarities.getOrDefault(doc, 0.0);
+            System.out.printf("- %s: Cosine Similarity = %.4f\n", doc, simValue);
+        });
+
     }
 }
