@@ -17,6 +17,7 @@ public class TextProcessing {
     private static final Pattern WIKI_CITATION = Pattern.compile("\\[\\d+\\]");
     private static final Pattern SPECIAL_CHARS = Pattern.compile("[^\\p{L}\\p{Nd}'-]+");
     private static final Pattern APOSTROPHE = Pattern.compile("(\\w)'s\\b");
+    private static final Pattern WIKI_MARKUP = Pattern.compile("\\{\\{.*?\\}\\}|\\[\\[.*?:.*?\\]\\]|\\[\\[.*?\\|.*?\\]\\]");
     private static final Stemmer STEMMER = new Stemmer();
 
     public static List<String> processText(String text) {
@@ -26,7 +27,7 @@ public class TextProcessing {
 
         // Remove Wikipedia citations
         text = WIKI_CITATION.matcher(text).replaceAll("");
-
+        text = WIKI_MARKUP.matcher(text).replaceAll("");
         // Normalize apostrophes
         text = APOSTROPHE.matcher(text).replaceAll("$1");
 
@@ -44,6 +45,21 @@ public class TextProcessing {
         }
 
         return processedTokens;
+    }
+
+    // New function to print tokens
+    public static void printTokens(String text) {
+        List<String> tokens = processText(text);
+        if (tokens.isEmpty()) {
+            System.out.println("No valid tokens found.");
+            return;
+        }
+
+        System.out.println("Processed tokens:");
+        for (int i = 0; i < tokens.size(); i++) {
+            System.out.printf("%d. %s%n", i + 1, tokens.get(i));
+        }
+        System.out.println("Total tokens: " + tokens.size());
     }
 
     private static boolean isValidToken(String token) {

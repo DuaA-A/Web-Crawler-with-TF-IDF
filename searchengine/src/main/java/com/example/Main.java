@@ -3,38 +3,49 @@ package com.example;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         WebCrawler crawler = new WebCrawler(10);
-        crawler.crawl("https://en.wikipedia.org/wiki/Pharaoh", 2);
+        //print crawl
+//        crawler.crawl("https://en.wikipedia.org/wiki/Pharaoh", 2);
         InvertedIndex invertedIndex = new InvertedIndex();
+        //print inverted index
         invertedIndex.BuildInvertedIndx("pages");
-       invertedIndex.printIndex();
-
+//       invertedIndex.printIndex();
+        // Accept user query
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter search query (e.g., 'egypt pharaoh tomb'): ");
+        String query = scanner.nextLine();
+        QueryProcessor queryProcessor = new QueryProcessor();
         System.out.println(invertedIndex.Print_DF("wikidata") );
-
-
+        List<String> processedQuery = queryProcessor.processQuery(query);
+        String expandedQuery = String.join(" ", processedQuery);
+        //print query processing
+//        queryProcessor.printProcessedQuery(query);
 //         those functions are supposed to be used in cosine similarity
 
         TFIDFCalculator tfidf = new TFIDFCalculator(invertedIndex);
 
 // Print TF-IDF weights for a specific document
-        String docId = "en_wikipedia_org_wiki_Pharaoh.txt";
-        Map<String, Double> docVector = tfidf.computeDocumentVector(docId);
-        System.out.println("TF-IDF for document: " + docId);
-        docVector.forEach((term, weight) -> System.out.printf("%s: %.4f\n", term, weight));
+//        String docId = "en_wikipedia_org_wiki_Pharaoh.txt";
+//        Map<String, Double> docVector = tfidf.computeDocumentVector(docId);
+//        System.out.println("TF-IDF for document: " + docId);
+//        docVector.forEach((term, weight) -> System.out.printf("%s: %.4f\n", term, weight));
 
 // Print TF-IDF for a user query
-        Map<String, Double> queryVector = tfidf.computeQueryVector("egypt pharaoh tomb");
-        System.out.println("\nTF-IDF for query:");
-        queryVector.forEach((term, weight) -> System.out.printf("%s: %.4f\n", term, weight));
-
+//        Map<String, Double> queryVector = tfidf.computeQueryVector("egypt pharaoh tomb");
+//        System.out.println("\nTF-IDF for query:");
+//        queryVector.forEach((term, weight) -> System.out.printf("%s: %.4f\n", term, weight));
+//
 
 
 //         3. Define the user's search query
-String query = "egypt pharaoh tomb";
-
+//String query = "egypt pharaoh tomb";
+        //print the query after text processing
+        System.out.println("Tokenized query:");
+//        TextProcessing.printTokens(query);
 // 4. Rank the documents based on cosine similarity
 List<String> topDocuments = tfidf.rankDocuments(query);
 

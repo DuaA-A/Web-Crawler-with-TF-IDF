@@ -15,7 +15,9 @@ public class TFIDFCalculator {
     }
 
     // tfidf vector for document
+
     public Map<String, Double> computeDocumentVector(String docId) {
+
         Map<String, Double> tfidfVector = new HashMap<>();
         int totalDocs = index.InvertedIndx.values().stream()
                 .flatMap(List::stream)
@@ -67,7 +69,7 @@ public class TFIDFCalculator {
         return queryVector;
     }
 
-   
+
 
      // Cosine similarity between two vectors (document and query)
      public double cosineSimilarity(Map<String, Double> docVector, Map<String, Double> queryVector) {
@@ -117,6 +119,6 @@ public class TFIDFCalculator {
         }
         return docIds;
     }
-    
-    
+
+
 }
