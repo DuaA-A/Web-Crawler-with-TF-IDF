@@ -64,6 +64,9 @@ public class TFIDFCalculator {
             if (postings != null) {
                 double idf = Math.log10((double) totalDocs / postings.size());
                 queryVector.put(term, tfWeight * idf);
+            }else{
+                queryVector.put(term, 0.0);
+
             }
         }
         return queryVector;
@@ -73,23 +76,29 @@ public class TFIDFCalculator {
 
      // Cosine similarity between two vectors (document and query)
      public double cosineSimilarity(Map<String, Double> docVector, Map<String, Double> queryVector) {
-        Set<String> allTerms = new HashSet<>(docVector.keySet());
-        allTerms.addAll(queryVector.keySet());
+         Set<String> allTerms = new HashSet<>(docVector.keySet());
+         allTerms.addAll(queryVector.keySet());
 
-        double dotProduct = 0.0;
-        double docMagnitude = 0.0;
-        double queryMagnitude = 0.0;
+         double dotProduct = 0.0;
+         double docMagnitude = 0.0;
+         double queryMagnitude = 0.0;
 
-        for (String term : allTerms) {
-            double docValue = docVector.getOrDefault(term, 0.0);
-            double queryValue = queryVector.getOrDefault(term, 0.0);
-            dotProduct += docValue * queryValue;
-            docMagnitude += Math.pow(docValue, 2);
-            queryMagnitude += Math.pow(queryValue, 2);
-        }
+         for (String term : allTerms) {
+             double docValue = docVector.getOrDefault(term, 0.0);
+             double queryValue = queryVector.getOrDefault(term, 0.0);
+             dotProduct += docValue * queryValue;
+             docMagnitude += Math.pow(docValue, 2);
+             queryMagnitude += Math.pow(queryValue, 2);
+         }
 
-        return dotProduct / (Math.sqrt(docMagnitude) * Math.sqrt(queryMagnitude));
-    }
+         // 💡 Avoid NaN:
+         if (docMagnitude == 0.0 || queryMagnitude == 0.0) {
+             return 0.0;
+         }
+
+         return dotProduct / (Math.sqrt(docMagnitude) * Math.sqrt(queryMagnitude));
+     }
+
     // Rank documents based on cosine similarity
     public List<String> rankDocuments(String query) {
         Map<String, Double> queryVector = computeQueryVector(query);
