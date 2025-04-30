@@ -73,61 +73,60 @@ public class TFIDFCalculator {
     }
 
 
-
      // Cosine similarity between two vectors (document and query)
-     public double cosineSimilarity(Map<String, Double> docVector, Map<String, Double> queryVector) {
-         Set<String> allTerms = new HashSet<>(docVector.keySet());
-         allTerms.addAll(queryVector.keySet());
+        public double cosineSimilarity(Map<String, Double> docVector, Map<String, Double> queryVector) {
+            Set<String> allTerms = new HashSet<>(docVector.keySet());
+            allTerms.addAll(queryVector.keySet());
 
-         double dotProduct = 0.0;
-         double docMagnitude = 0.0;
-         double queryMagnitude = 0.0;
+            double dotProduct = 0.0;
+            double docMagnitude = 0.0;
+            double queryMagnitude = 0.0;
 
-         for (String term : allTerms) {
-             double docValue = docVector.getOrDefault(term, 0.0);
-             double queryValue = queryVector.getOrDefault(term, 0.0);
-             dotProduct += docValue * queryValue;
-             docMagnitude += Math.pow(docValue, 2);
-             queryMagnitude += Math.pow(queryValue, 2);
-         }
-
-         // 💡 Avoid NaN:
-         if (docMagnitude == 0.0 || queryMagnitude == 0.0) {
-             return 0.0;
-         }
-
-         return dotProduct / (Math.sqrt(docMagnitude) * Math.sqrt(queryMagnitude));
-     }
-
-    // Rank documents based on cosine similarity
-    public List<String> rankDocuments(String query) {
-        Map<String, Double> queryVector = computeQueryVector(query);
-        Map<String, Double> documentSimilarities = new HashMap<>();
-
-        // Compute cosine similarity for each document
-        for (String docId : getAllDocumentIds()) {
-            Map<String, Double> docVector = computeDocumentVector(docId);
-            double similarity = cosineSimilarity(docVector, queryVector);
-            documentSimilarities.put(docId, similarity);
-        }
-
-        // Sort documents by similarity
-        return documentSimilarities.entrySet().stream()
-                .sorted((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()))
-                .limit(10)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-     // Retrieve all document IDs from the inverted index
-     public Set<String> getAllDocumentIds() {
-        Set<String> docIds = new HashSet<>();
-        for (List<InvertedIndex.Posting> postings : index.InvertedIndx.values()) {
-            for (InvertedIndex.Posting p : postings) {
-                docIds.add(p.DocId);
+            for (String term : allTerms) {
+                double docValue = docVector.getOrDefault(term, 0.0);
+                double queryValue = queryVector.getOrDefault(term, 0.0);
+                dotProduct += docValue * queryValue;
+                docMagnitude += Math.pow(docValue, 2);
+                queryMagnitude += Math.pow(queryValue, 2);
             }
-        }
-        return docIds;
-    }
 
+            // 💡 Avoid NaN:
+            if (docMagnitude == 0.0 || queryMagnitude == 0.0) {
+                return 0.0;
+            }
+
+            return dotProduct / (Math.sqrt(docMagnitude) * Math.sqrt(queryMagnitude));
+        }
+
+        // Rank documents based on cosine similarity
+        public List<String> rankDocuments(String query) {
+            Map<String, Double> queryVector = computeQueryVector(query);
+            Map<String, Double> documentSimilarities = new HashMap<>();
+
+            // Compute cosine similarity for each document
+            for (String docId : getAllDocumentIds()) {
+                Map<String, Double> docVector = computeDocumentVector(docId);
+                double similarity = cosineSimilarity(docVector, queryVector);
+                documentSimilarities.put(docId, similarity);
+            }
+
+            // Sort documents by similarity
+            return documentSimilarities.entrySet().stream()
+                    .sorted((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()))
+                    .limit(10)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+        }
+
+        // Retrieve all document IDs from the inverted index
+        public Set<String> getAllDocumentIds() {
+            Set<String> docIds = new HashSet<>();
+            for (List<InvertedIndex.Posting> postings : index.InvertedIndx.values()) {
+                for (InvertedIndex.Posting p : postings) {
+                    docIds.add(p.DocId);
+                }
+            }
+            return docIds;
+        }
 
 }
