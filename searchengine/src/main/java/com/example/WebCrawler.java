@@ -86,12 +86,12 @@ public class WebCrawler {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        WebCrawler crawler = new WebCrawler();
-        String[] seedUrls = {
-            "https://en.wikipedia.org/wiki/List_of_pharaohs",
-            "https://en.wikipedia.org/wiki/Pharaoh"
-        };
-        crawler.crawlAndStore(seedUrls);
-    }
+    // public static void main(String[] args) throws IOException {
+    //     WebCrawler crawler = new WebCrawler();
+    //     String[] seedUrls = {
+    //         "https://en.wikipedia.org/wiki/List_of_pharaohs",
+    //         "https://en.wikipedia.org/wiki/Pharaoh"
+    //     };
+    //     crawler.crawlAndStore(seedUrls);
+    // }
 }
