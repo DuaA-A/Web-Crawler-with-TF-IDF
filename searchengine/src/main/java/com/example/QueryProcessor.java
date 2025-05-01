@@ -6,47 +6,39 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Processes user queries by tokenizing and expanding terms.
- */
+
 public class QueryProcessor {
     private final TextProcessing textProcessor;
     private static final Map<String, String> SYNONYMS = new HashMap<>();
 
     static {
-        // Original synonyms
         SYNONYMS.put("pharaoh", "king");
         SYNONYMS.put("tomb", "burial");
         SYNONYMS.put("egypt", "nile");
         SYNONYMS.put("pyramid", "monument");
 
-        // Royalty and Governance
         SYNONYMS.put("king", "monarch");
         SYNONYMS.put("queen", "consort");
         SYNONYMS.put("dynasty", "lineage");
         SYNONYMS.put("ruler", "sovereign");
         SYNONYMS.put("succession", "inheritance");
 
-        // Burial and Funerary Practices
         SYNONYMS.put("mummy", "embalmed");
         SYNONYMS.put("sarcophagus", "coffin");
         SYNONYMS.put("necropolis", "cemetery");
         SYNONYMS.put("canopic", "jar");
 
-        // Geography and Landmarks
         SYNONYMS.put("delta", "floodplain");
         SYNONYMS.put("oasis", "spring");
                 SYNONYMS.put("giza", "plateau");
         SYNONYMS.put("luxor", "thebes");
 
-        // Architecture and Monuments
         SYNONYMS.put("sphynx", "statue");
         SYNONYMS.put("obelisk", "pillar");
         SYNONYMS.put("temple", "shrine");
         SYNONYMS.put("pylon", "gateway");
         SYNONYMS.put("colonnade", "arcade");
 
-        // Religion and Mythology
         SYNONYMS.put("god", "deity");
         SYNONYMS.put("goddess", "divinity");
         SYNONYMS.put("ra", "sun");
@@ -54,7 +46,6 @@ public class QueryProcessor {
         SYNONYMS.put("horus", "falcon");
         SYNONYMS.put("amulet", "charm");
 
-        // Culture and Artifacts
         SYNONYMS.put("hieroglyph", "script");
         SYNONYMS.put("papyrus", "scroll");
         SYNONYMS.put("scribe", "scholar");
